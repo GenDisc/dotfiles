@@ -10,6 +10,8 @@ ln -sf "$PWD/nvim/" "$CONFIG_HOME"/nvim
 ln -sf "$PWD/.tmux.conf/" "$HOME"/.tmux.conf
 ln -sf "$PWD/.bashrc" "$HOME"/.bashrc
 
+source "$HOME"/.bashrc
+
 apt install -y gcc g++ unzip
 
 add-apt-repository ppa:neovim-ppa/stable
