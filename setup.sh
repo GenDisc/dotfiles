@@ -8,12 +8,13 @@ mkdir "$CONFIG_HOME"
 
 ln -sf "$PWD/nvim/" "$CONFIG_HOME"/nvim
 ln -sf "$PWD/.tmux.conf/" "$HOME"/.tmux.conf
-
-# install brew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+ln -sf "$PWD/.bashrc" "$HOME"/.bashrc
 
 apt install -y gcc g++ unzip
 
 add-apt-repository ppa:neovim-ppa/stable
 apt-get update -y
-apt-get install neovim -y
+apt install -y curl
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+tar -C /opt -xzf nvim-linux64.tar.gz
+rm nvim-linux64.tar.gz
