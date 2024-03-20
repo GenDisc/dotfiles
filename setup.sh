@@ -12,11 +12,10 @@ ln -sf "$PWD/.bashrc" "$HOME"/.bashrc
 
 source "$HOME"/.bashrc
 
-apt install -y gcc g++ unzip
-
-add-apt-repository ppa:neovim-ppa/stable
 apt-get update -y
+apt install -y gcc g++ unzip
 apt install -y curl
+apt install fd-find
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
 tar -C /opt -xzf nvim-linux64.tar.gz
 rm nvim-linux64.tar.gz
