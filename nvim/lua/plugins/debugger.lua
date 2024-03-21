@@ -35,6 +35,7 @@ return {
       ft = "python",
       dependencies = {
         "mfussenegger/nvim-dap",
+        "nvim-neotest/nvim-nio",
       },
       config = function(_, opts)
         -- local path = os.getenv("CONDA_PREFIX") .. "/bin/python3"
