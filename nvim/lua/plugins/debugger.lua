@@ -56,9 +56,18 @@ return {
       optional = true,
       opts = {
         defaults = {
-          ["<leader>d"] = { name = "+debug" },
+          "<leader>d",
+          group = "debug",
         },
       },
+    },
+
+    {
+      "leoluz/nvim-dap-go",
+      ft = "go",
+      config = function(_, opts)
+        require("dap-go").setup()
+      end,
     },
 
     -- mason.nvim integration

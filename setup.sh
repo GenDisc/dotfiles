@@ -68,7 +68,6 @@ if [[ "$OSTYPE" == linux* ]]; then
   bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
   rm -rf ~/miniconda3/miniconda.sh
 
-
   LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
   curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
   tar xf lazygit.tar.gz lazygit
@@ -76,12 +75,11 @@ if [[ "$OSTYPE" == linux* ]]; then
 fi
 
 # install homebrew
-if command -v brew &> /dev/null
-then
-    echo "Homebrew is already installed."
+if command -v brew &>/dev/null; then
+  echo "Homebrew is already installed."
 else
-    echo "Homebrew is not installed. Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" </dev/null
+  echo "Homebrew is not installed. Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" </dev/null
 fi
 
 # MacOS specific setup
@@ -104,11 +102,46 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
 fi
 
-
 chsh -s $(which zsh)
+# sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
 
-exec zsh
+# exec zsh
 # conda config --add channels conda-forge
 # conda config --set channel_priority strict
 
+# Install GO
 
+GO_VERSION="1.21.1"                      # Replace with the version you want to install
+OS=$(uname | tr '[:upper:]' '[:lower:]') # Detect OS (linux or darwin for macOS)
+ARCH=$(uname -m)
+
+if [[ "$ARCH" == "x86_64" ]]; then
+  ARCH="amd64"
+elif [[ "$ARCH" == "aarch64" || "$ARCH" == "arm64" ]]; then
+  ARCH="arm64"
+else
+  echo "Unsupported architecture: $ARCH"
+  exit 1
+fi
+
+# Set download URL
+GO_URL="https://golang.org/dl/go${GO_VERSION}.${OS}-${ARCH}.tar.gz"
+
+# Download and install Go
+echo "Downloading Go $GO_VERSION for $OS $ARCH..."
+curl -OL "$GO_URL"
+
+echo "Extracting Go archive..."
+tar -C /usr/local -xzf "go${GO_VERSION}.${OS}-${ARCH}.tar.gz"
+
+# Remove the downloaded archive
+rm "go${GO_VERSION}.${OS}-${ARCH}.tar.gz"
+
+# Install Delve
+
+echo "Installing Delve..."
+go install github.com/go-delve/delve/cmd/dlv@latest
+echo "Delve version:"
+
+source ~/.zshrc
+dlv version
